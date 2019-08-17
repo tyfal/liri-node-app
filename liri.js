@@ -120,14 +120,29 @@ class Media {
                 _self.Handler();
             }
            
-          
           });
 
     }
 
     BandsInTown() {
 
+        var _self = this;
 
+        axios.get(`https://rest.bandsintown.com/artists/${this.media}/events?app_id=codingbootcamp`).then(
+            function (response) {
+                // Then we print out the imdbRating
+                try {
+                    if(response !== undefined) console.log(`${_self.media} is playing at ${response.data[0].venue.city}, ${response.data[0].venue.region}`);
+                    else throw "artist could not be found";
+                }
+                catch (err) {
+                    console.log(err);
+                    _self.action = '';
+                    _self.media = '';
+                    _self.Handler();
+                }
+            }
+        );
 
     }
 
