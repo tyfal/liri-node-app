@@ -82,10 +82,22 @@ class Media {
 
     OMDB() {
 
+        var _self = this;
+
         axios.get(`http://www.omdbapi.com/?t=${this.media.replace(" ","+")}&y=&plot=short&apikey=trilogy`).then(
             function (response) {
                 // Then we print out the imdbRating
-                console.log("The movie's rating is: " + response.data.imdbRating);
+                try {
+                    // console.log(response)
+                    if(response.data.imdbRating !== undefined) console.log("The movie's rating is: " + response.data.imdbRating);
+                    else throw "movie could not be found";
+                }
+                catch (err) {
+                    console.log(err);
+                    _self.action = '';
+                    _self.media = '';
+                    _self.Handler();
+                }
             }
         );
 
@@ -93,7 +105,23 @@ class Media {
 
     Spotify() {
 
-        
+        var _self = this;
+
+        spotify.search({ type: 'track', query: this.media }, function(err, data) {
+            
+            try {
+                if (!err) console.log(`song by: ${data.tracks.items[0].artists[0].name}`); 
+                else throw err;
+            }
+            catch (err) {
+                console.log('Error occurred: ' + err);
+                _self.action = '';
+                _self.media = '';
+                _self.Handler();
+            }
+           
+          
+          });
 
     }
 
