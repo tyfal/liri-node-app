@@ -4,6 +4,7 @@ require("dotenv").config();
 var keys = require("./keys.js");
 var axios = require("axios");
 var inquirer = require('inquirer');
+var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
 
@@ -47,7 +48,7 @@ class Media {
             case "do-what-it-says":
 
                 this.DoWhatItSays();
-                
+
                 break;
 
             default:
@@ -59,10 +60,10 @@ class Media {
                         message: "choose a valid action: ",
                         name: "action",
                         choices: [
-                            {name:"concert-this"},
-                            {name:"spotify-this"},
-                            {name:"movie-this"},
-                            {name:"do-what-it-says"}
+                            { name: "concert-this" },
+                            { name: "spotify-this" },
+                            { name: "movie-this" },
+                            { name: "do-what-it-says" }
                         ]
                     }, {
                         type: "input",
@@ -84,12 +85,12 @@ class Media {
 
         var _self = this;
 
-        axios.get(`http://www.omdbapi.com/?t=${this.media.replace(" ","+")}&y=&plot=short&apikey=trilogy`).then(
+        axios.get(`http://www.omdbapi.com/?t=${this.media.replace(" ", "+")}&y=&plot=short&apikey=trilogy`).then(
             function (response) {
                 // Then we print out the imdbRating
                 try {
                     // console.log(response)
-                    if(response.data.imdbRating !== undefined) console.log("The movie's rating is: " + response.data.imdbRating);
+                    if (response.data.imdbRating !== undefined) console.log("The movie's rating is: " + response.data.imdbRating);
                     else throw "movie could not be found";
                 }
                 catch (err) {
@@ -107,10 +108,10 @@ class Media {
 
         var _self = this;
 
-        spotify.search({ type: 'track', query: this.media }, function(err, data) {
-            
+        spotify.search({ type: 'track', query: this.media }, function (err, data) {
+
             try {
-                if (!err) console.log(`song by: ${data.tracks.items[0].artists[0].name}`); 
+                if (!err) console.log(`song by: ${data.tracks.items[0].artists[0].name}`);
                 else throw err;
             }
             catch (err) {
@@ -119,8 +120,8 @@ class Media {
                 _self.media = '';
                 _self.Handler();
             }
-           
-          });
+
+        });
 
     }
 
@@ -132,7 +133,7 @@ class Media {
             function (response) {
                 // Then we print out the imdbRating
                 try {
-                    if(response !== undefined) console.log(`${_self.media} is playing at ${response.data[0].venue.city}, ${response.data[0].venue.region}`);
+                    if (response !== undefined) console.log(`${_self.media} is playing at ${response.data[0].venue.city}, ${response.data[0].venue.region}`);
                     else throw "artist could not be found";
                 }
                 catch (err) {
@@ -148,6 +149,23 @@ class Media {
 
     DoWhatItSays() {
 
+        var _self = this;
+
+        // This block of code will read from the "movies.txt" file.
+        // It's important to include the "utf8" parameter or the code will provide stream data (garbage)
+        // The code will store the contents of the reading inside the variable "data"
+        fs.readFile("random.txt", "utf8", function (error, data) {
+
+            // If the code experiences any errors it will log the error to the console.
+            if (error) {
+                return console.log(error);
+            }
+
+            _self.media = data.split(",")[1];
+
+            _self.Spotify()
+
+        });
 
 
     }
