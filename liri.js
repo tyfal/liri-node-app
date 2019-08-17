@@ -84,12 +84,14 @@ class Media {
 
         var _self = this;
 
+        if (this.media === '') this.media = "Mr. Nobody";
+
         axios.get(`http://www.omdbapi.com/?t=${this.media.replace(" ", "+")}&y=&plot=short&apikey=trilogy`).then(
             function (response) {
                 // Then we print out the imdbRating
                 try {
-                    // console.log(response)
-                    if (response.data.imdbRating !== undefined) console.log("The movie's rating is: " + response.data.imdbRating);
+                    // console.log(response.data)
+                    if (response.data.imdbRating !== undefined) console.log(`title: ${response.data.Title}\nyear: ${response.data.Year}\nIMDB rating: ${response.data.imdbRating}\nRotton Tomatoes rating: ${response.data.Ratings[1].Value}\nproduced in: ${response.data.Country}\nlanguage: ${response.data.Language}\nplot: ${response.data.Plot}\nactors: ${response.data.Actors}`);
                     else throw "movie could not be found";
                 }
                 catch (err) {
