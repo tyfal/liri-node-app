@@ -133,7 +133,7 @@ class Media {
                 // Then we print out the imdbRating
                 // console.log(response.data[0]);
                 try {
-                    if (response !== undefined) console.log(`${_self.media} is playing at ${response.data[0].venue.city}, ${response.data[0].venue.region}\nDate of event: ${moment(response.data[0].datetime).format( "MM/DD/YYYY")}`);
+                    if (response !== undefined) console.log(`${_self.media} is playing at ${response.data[0].venue.name} (${response.data[0].venue.city}, ${response.data[0].venue.region})\nDate of event: ${moment(response.data[0].datetime).format( "MM/DD/YYYY")}`);
                     else throw "artist could not be found";
                 }
                 catch (err) {
