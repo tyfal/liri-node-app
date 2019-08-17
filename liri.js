@@ -17,8 +17,6 @@ class Media {
 
         this.media = process.argv.slice(3).join(" ");
 
-        // console.log(`\nYou chose to ${action} with ${media}\n`);
-
         this.Handler();
 
     }
@@ -68,7 +66,8 @@ class Media {
                     }, {
                         type: "input",
                         message: "type in a valid media: ",
-                        name: "media"
+                        name: "media",
+                        default: ""
                     }
 
                 ]).then(answer => {
@@ -132,8 +131,9 @@ class Media {
         axios.get(`https://rest.bandsintown.com/artists/${this.media}/events?app_id=codingbootcamp`).then(
             function (response) {
                 // Then we print out the imdbRating
+                // console.log(response.data[0]);
                 try {
-                    if (response !== undefined) console.log(`${_self.media} is playing at ${response.data[0].venue.city}, ${response.data[0].venue.region}`);
+                    if (response !== undefined) console.log(`${_self.media} is playing at ${response.data[0].venue.city}, ${response.data[0].venue.region}\nDate of event: ${moment(response.data[0].datetime).format( "MM/DD/YYYY")}`);
                     else throw "artist could not be found";
                 }
                 catch (err) {
