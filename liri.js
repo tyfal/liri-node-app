@@ -107,10 +107,12 @@ class Media {
 
         var _self = this;
 
+        if (this.media === '') this.media = "The Sign Ace the Base";
+
         spotify.search({ type: 'track', query: this.media }, function (err, data) {
 
             try {
-                if (!err) console.log(`song by: ${data.tracks.items[0].artists[0].name}`);
+                if (!err) console.log(`song name: ${data.tracks.items[0].name}\nsong by: ${data.tracks.items[0].artists[0].name}\npreview link: ${data.tracks.items[0].href}\nalbum name: ${data.tracks.items[0].album.name}`);
                 else throw err;
             }
             catch (err) {
