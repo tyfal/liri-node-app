@@ -9,8 +9,18 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
 
+/**
+ * Creates an instance of the Liri Node App.
+ *
+ * @class Media
+ */
 class Media {
 
+    /**
+     * Creates an instance of Media and initializes handler.
+     * 
+     * @memberof Media
+     */
     constructor() {
 
         this.action = process.argv[2];
@@ -21,6 +31,11 @@ class Media {
 
     }
 
+    /**
+     * Uses switch statement based off of input to call methods.
+     *
+     * @memberof Media
+     */
     Handler() {
 
         switch (this.action) {
@@ -80,6 +95,11 @@ class Media {
 
     }
 
+    /**
+     * Gets the IMDB information for movie inputs.
+     *
+     * @memberof Media
+     */
     OMDB() {
 
         var _self = this;
@@ -105,6 +125,11 @@ class Media {
 
     }
 
+    /**
+     * Gets the track information for song input.
+     *
+     * @memberof Media
+     */
     Spotify() {
 
         var _self = this;
@@ -128,6 +153,11 @@ class Media {
 
     }
 
+    /**
+     * Gets the concert information for band inputs.
+     *
+     * @memberof Media
+     */
     BandsInTown() {
 
         var _self = this;
@@ -151,6 +181,11 @@ class Media {
 
     }
 
+    /**
+     * Reads the file to get random input and return track info.
+     *
+     * @memberof Media
+     */
     DoWhatItSays() {
 
         var _self = this;
@@ -170,7 +205,6 @@ class Media {
             _self.Spotify()
 
         });
-
 
     }
 
